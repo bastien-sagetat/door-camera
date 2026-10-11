@@ -1,0 +1,16 @@
+[Unit]
+Description=Door-camera detection service
+Requires=door-camera-setup.service
+After=door-camera-setup.service
+
+[Service]
+Type=simple
+User=door-camera-user
+Group=door-camera-user
+WorkingDirectory=/opt/door-camera/repo/soft
+ExecStart=/opt/door-camera/repo/soft/.venv/bin/python /opt/door-camera/repo/soft/door_camera.py
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
