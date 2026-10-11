@@ -1,0 +1,16 @@
+[Unit]
+Description=Door-camera HTTP file server
+Requires=door-camera.service
+After=door-camera.service
+
+[Service]
+Type=simple
+User=door-camera-user
+Group=door-camera-user
+ExecStartPre=/bin/sleep 1
+ExecStart=/usr/bin/python3 -m http.server 8000 --bind 0.0.0.0 --directory /home/door-camera-user/recordings
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
