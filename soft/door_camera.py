@@ -107,9 +107,6 @@ def main(args):
     next_detection_time = 0.0
     ignore_motion_until = 0.0
 
-    fps_start = time.monotonic()
-    frame_count = 0
-
     try:
         while True:
             ok, frame = cap.read()
@@ -119,14 +116,6 @@ def main(args):
                 continue
 
             now = time.monotonic()
-            frame_count += 1
-
-            elapsed = now - fps_start
-            if elapsed >= 5.0:
-                logging.info("Real FPS: %.2f", frame_count / elapsed)
-                frame_count = 0
-                fps_start = now
-
             motion = False
 
             if previous_gray is None or now >= next_detection_time:
