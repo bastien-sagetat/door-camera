@@ -30,6 +30,7 @@ A camera mounted on the **inside of an apartment door, looking through the door 
   - Connection: the RPi 5 uses 22-pin 0.5 mm pitch CSI connectors, while the camera board uses the classic 15-pin 1 mm connector, so a 15-to-22-pin adapter cable is needed.
 - Software stack on the Pi: the OV5647 is supported by the mainline kernel driver and **libcamera** (`rpicam-apps`, `picamera2` in Python). On the RPi 5, the image pipeline is the PiSP (Pi 5 ISP), not the legacy MMAL/V4L2 camera stack, so `raspistill`/`raspivid` and the legacy camera interface don't work.
   - Capture/record/stream commands using only `rpicam-apps` are documented in `README.md` (Usage section). Keep them in sync when changing the setup.
+  - All commands use the custom tuning file `soft/tuning/ov5647_door.json` (`--tuning-file ... --exposure custom --denoise cdn_hq`). Its `custom` exposure mode raises the analogue gain ceiling from 8x to 24x: at 30 FPS the exposure is capped at ~33 ms, and the stock modes left the image dark in low light. See `soft/tuning/README.md`.
   - If the camera isn't detected automatically: `camera_auto_detect=0` and `dtoverlay=ov5647` (with `,cam0` if plugged into the CAM0 port) in `/boot/firmware/config.txt`.
 
 ## Repository layout
